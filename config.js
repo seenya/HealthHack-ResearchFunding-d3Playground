@@ -1,7 +1,6 @@
 module.exports = {
   "mongodb": {
-		"connectionstring": process.env.MONGODB || "mongodb://localhost:27017/test",
-		"dbname": process.env.DBNAME || "grantsummary"
+		"connectionstring": process.env.MONGODB || "mongodb://localhost:27017/test"
 	},
 	"logger": {
 		"api": "logs/api.log",

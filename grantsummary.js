@@ -3,7 +3,7 @@ var MongoClient = require('mongodb').MongoClient;
 _ = function(config){
 	
 	var connectionstring = config.connectionstring;
-	var dbname = config.dbname;
+	console.log("MongoDB:" + connectionstring);
 
 	var _self = this;
 
@@ -36,7 +36,7 @@ _ = function(config){
 	   _self.connect(function(err, db) {
 	 	if(err) callback(err);
 	 	var query = _self.buildAggregateQueryJSON(parameters);
-	    var cursor = db.collection(dbname).aggregate([
+	    var cursor = db.collection('grantsummary').aggregate([
 	        query
 	      ], function(err, result) {
 	      	db.close();
