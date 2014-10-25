@@ -16,6 +16,7 @@ var app = express();
 
 var routes = require('./routes');
 var handlers = require('./routes/index');
+var config = require('./config');
 var GrantSummary = require('./grantsummary').GrantSummary;
 var fs = require('fs');
  
@@ -40,7 +41,7 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-var grantsummary = new GrantSummary();
+var grantsummary = new GrantSummary(config.mongodb);
 
 function start() {
   routes.setup(app, handlers, grantsummary);
