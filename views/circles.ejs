@@ -152,6 +152,7 @@ $( document ).ready(function() {
     var initialiseCircles = function() {
 
         pack = d3.layout.pack()
+            .sort(d3.descending)
             .size([r, r])
             .value(function(d) { return d.size; })
 
