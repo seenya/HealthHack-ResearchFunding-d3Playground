@@ -3,11 +3,6 @@
 <head>
     <title>VizMyGrant</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
 
@@ -18,74 +13,86 @@
     <script type="text/javascript" src="js/d3.layout.js"></script>
     
     <script type="text/javascript" src="js/knockout-3.2.0.js"></script>
-    
+
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/grid.css">   
 
     <style type="text/css">
-text {
-  font-size: 11px;
-  pointer-events: none;
-}
+        text {
+          font-size: 11px;
+          pointer-events: none;
+        }
 
-text.parent {
-  fill: #1f77b4;
-}
+        text.parent {
+          fill: #1f77b4;
+        }
 
-circle {
-  fill: #ccc;
-  stroke: #999;
-  pointer-events: all;
-}
+        circle {
+          fill: #ccc;
+          stroke: #999;
+          pointer-events: all;
+        }
 
-circle.parent {
-  fill: #1f77b4;
-  fill-opacity: .1;
-  stroke: steelblue;
-}
+        circle.parent {
+          fill: #1f77b4;
+          fill-opacity: .1;
+          stroke: steelblue;
+        }
 
-circle.parent:hover {
-  stroke: #ff7f0e;
-  stroke-width: .5px;
-}
+        circle.parent:hover {
+          stroke: #ff7f0e;
+          stroke-width: .5px;
+        }
 
-circle.child {
-  pointer-events: none;
-}
+        circle.child {
+          pointer-events: none;
+        }
     </style>
     
 </head>
 <body>
-    <header>Welcome to your visualisation heaven.</header>
+    <div class="container">
+        <div class="page-header">
+            <h1>Welcome to VizMyGrant Circles.</h1>
+        </div>
 
-<table>
-    <thead><tr>
-        <th>Available Levels</th><th>Add</th>
-    </tr></thead>
-    <tbody data-bind="foreach: availableLevels">
-        <tr>
-            <td data-bind="text: level"></td>
-            <td><button data-bind="click: $root.selectLevel">Select</button></td>
-        </tr>    
-    </tbody>
-    <tbody></tbody>
-</table>
 
-<table>
-    <thead><tr>
-        <th>Selected Levels</th><th>Up</th><th>Down</th><th>Remove</th>
-    </tr></thead>
-    <tbody data-bind="foreach: selectedLevels">
-        <tr>
-            <td data-bind="text: level"></td>
-            <td><!--<button data-bind="click: $root.moveLevelUp">Up</button>--></td>
-            <td><!--<button data-bind="click: $root.moveLevelDown">Down</button>--></td>
-            <td><button data-bind="click: $root.removeLevel">Remove</button></td>
-        </tr>    
-    </tbody>
-    <tbody></tbody>
-</table>
-
-<button data-bind="click: generateCircles">Generate</button>
-
+        <div class="row"/>
+            <div class="col-md-4">
+                <table>
+                    <thead><tr>
+                        <th>Available Levels</th><th>&nbsp;</th>
+                    </tr></thead>
+                    <tbody data-bind="foreach: availableLevels">
+                        <tr>
+                            <td data-bind="text: level"></td>
+                            <td><button data-bind="click: $root.selectLevel">Select</button></td>
+                        </tr>    
+                    </tbody>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table>
+                    <thead><tr>
+                        <th>Selected Levels</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>
+                    </tr></thead>
+                    <tbody data-bind="foreach: selectedLevels">
+                        <tr>
+                            <td data-bind="text: level"></td>
+                            <td><!--<button data-bind="click: $root.moveLevelUp">Up</button>--></td>
+                            <td><!--<button data-bind="click: $root.moveLevelDown">Down</button>--></td>
+                            <td><button data-bind="click: $root.removeLevel">Remove</button></td>
+                        </tr>    
+                    </tbody>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col-md-4">&nbsp;</div>
+        </div>
+        
+        <button data-bind="click: generateCircles">Generate</button>
+    </div>
 <br/>
 
 <script type="text/javascript">
