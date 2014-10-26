@@ -16,6 +16,9 @@
 
     <script type="text/javascript" src="js/d3.js"></script>
     <script type="text/javascript" src="js/d3.layout.js"></script>
+    
+    <script type="text/javascript" src="js/knockout-3.2.0.js"></script>
+    
 
     <style type="text/css">
 text {
@@ -52,9 +55,38 @@ circle.child {
 </head>
 <body>
     <header>Welcome to your visualisation heaven.</header>
-        <form id="target" action="/api/getd3data">
-        <input type="submit" value="Go"/>
-    </form>
+
+<table>
+    <thead><tr>
+        <th>Available Levels</th><th>Add</th>
+    </tr></thead>
+    <tbody data-bind="foreach: availableLevels">
+        <tr>
+            <td data-bind="text: level"></td>
+            <td><button data-bind="click: $root.selectLevel">Select</button></td>
+        </tr>    
+    </tbody>
+    <tbody></tbody>
+</table>
+
+<table>
+    <thead><tr>
+        <th>Selected Levels</th><th>Up</th><th>Down</th><th>Remove</th>
+    </tr></thead>
+    <tbody data-bind="foreach: selectedLevels">
+        <tr>
+            <td data-bind="text: level"></td>
+            <td><button data-bind="click: $root.moveLevelUp">Up</button></td>
+            <td><button data-bind="click: $root.moveLevelDown">Down</button></td>
+            <td><button data-bind="click: $root.removeLevel">Remove</button></td>
+        </tr>    
+    </tbody>
+    <tbody></tbody>
+</table>
+
+<button data-bind="click: generateCircles">Generate</button>
+
+<br/>
 
 <script type="text/javascript">
 $( document ).ready(function() {
@@ -164,15 +196,68 @@ $( document ).ready(function() {
       d3.event.stopPropagation();
     }
 
-    $("#target").submit(function( event ) {
-      event.preventDefault();
-      var otherData = JSON.parse('{"level":["CareerStage", "Gender"],"measure":"dollars"}');
-      var data = {level:["CareerStage","Gender"],measure:"dollars"};
-      $.post( "/api/getd3data", otherData)
-          .done(function( returnedData ) {
-            buildCircles(returnedData);
-          });
-    });
+    // Class to represent a row in the seat reservations grid
+    function Level(level,fieldName) {
+        var self = this;
+        self.level = level;
+        self.fieldName = fieldName || level;
+    }
+
+
+    // Overall viewmodel for this screen, along with initial state
+    function CirclesViewModel() {
+        var self = this;
+
+        // Non-editable catalog data - would come from the server
+        self.availableLevels = ko.observableArray([
+            new Level("Title"),
+            new Level("CareerStage"),
+            new Level("Grant Type", "GrantType"),
+            new Level("Grant Sub Type", "GrantSubType"),
+            new Level("Is Salary Grant", "IsSalaryGrant"),
+            new Level("Broad Area", "BroadArea"),
+            new Level("Category"),
+            new Level("Institution"),
+            new Level("State"),
+            new Level("Field of Research", "FoR"),
+            new Level("Gender")
+        ]);    
+
+        self.selectedLevels = ko.observableArray([]);
+
+        self.selectLevel = function(selectedLevel) {
+            self.availableLevels.remove(selectedLevel);
+            self.selectedLevels.push(selectedLevel);
+        };
+
+        self.moveLevelUp = function(selectedLevel) {
+
+        };
+
+        self.moveLevelDown = function(selectedLevel) {
+
+        };
+
+        self.removeLevel = function(selectedLevel) {
+            self.selectedLevels.remove(selectedLevel);
+            self.availableLevels.push(selectedLevel);
+        };
+
+        self.generateCircles = function() {
+            var otherData = JSON.parse('{"level":["CareerStage", "Gender"],"measure":"dollars"}');
+            var parameters = {"level":[],"measure":"dollars"};
+            self.selectedLevels().forEach(function(level){
+                parameters.level.push(level.fieldName);
+            });
+
+            $.post( "/api/getd3data", parameters)
+                .done(function( returnedData ) {
+                    buildCircles(returnedData);
+            });
+        };
+    };
+
+    ko.applyBindings(new CirclesViewModel());
 });
 </script>
 
