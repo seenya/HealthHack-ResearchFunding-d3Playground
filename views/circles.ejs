@@ -15,7 +15,8 @@
     <script type="text/javascript" src="js/knockout-3.2.0.js"></script>
 
     <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="stylesheets/grid.css">   
+    <link rel="stylesheet" href="stylesheets/grid.css">
+    <link href="stylesheets/font-awesome.min.css" rel="stylesheet">
 
     <style type="text/css">
         text {
@@ -47,6 +48,20 @@
         circle.child {
           pointer-events: none;
         }
+
+        .add-mouse-over, .add-mouse-over i {
+            color: gray;
+        }
+
+        .add-mouse-over:hover, .add-mouse-over:hover i {
+            color: green;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 1px #ccc;
+        }
+
+        i {
+            margin-left: 10px;
+        }
     </style>
     
 </head>
@@ -58,17 +73,18 @@
 
 
         <div class="row"/>
-            <div class="col-md-4"><div data-bind="click: generateCircles">Refresh Circles <img src="images/ic_refresh_24px.svg" alt="Generate"/></div></div>
+            <div class="col-md-4"><div data-bind="click: generateCircles">Refresh Circles   <i class="fa fa-refresh fa-lg"></i></div></div>
             <div class="col-md-4">
                 <table>
                     <thead><tr>
                         <th>Available Levels</th><th>&nbsp;</th>
                     </tr></thead>
                     <tbody data-bind="foreach: availableLevels">
-                        <tr>
+                        <tr class="add-mouse-over">
                             <td data-bind="text: level"></td>
-                            <td><div data-bind="click: $root.selectLevel"><img src="images/ic_thumb_up_24px.svg" alt="Add"/></div></td>
-                        </tr>    
+                            <td><div data-bind="click: $root.selectLevel"> <i class="fa fa-thumbs-o-up add-mouse-over" alt="Add"/></div></td>
+                            <!--<td><div data-bind="click: $root.selectLevel"><img src="images/ic_thumb_up_24px.svg" alt="Add"/></div></td>-->
+                        </tr>
                     </tbody>
                     <tbody></tbody>
                 </table>
@@ -83,8 +99,9 @@
                             <td data-bind="text: level"></td>
                             <td><!--<button data-bind="click: $root.moveLevelUp">Up</button>--></td>
                             <td><!--<button data-bind="click: $root.moveLevelDown">Down</button>--></td>
-                            <td><div data-bind="click: $root.removeLevel"><img src="images/ic_thumb_down_24px.svg" alt="Add"/></div></td>
-                        </tr>    
+                            <td><div data-bind="click: $root.removeLevel"> <i class="fa fa-thumbs-o-down add-mouse-over" alt="Add"/></div></td>
+                            <!--<td><div data-bind="click: $root.removeLevel"><img src="images/ic_thumb_down_24px.svg" alt="Add"/></div></td>-->
+                        </tr>
                     </tbody>
                     <tbody></tbody>
                 </table>
