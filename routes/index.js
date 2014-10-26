@@ -8,6 +8,10 @@ exports.circles = function(req, res){
     res.render('circles');
 };
 
+exports.topography = function(req, res){
+    res.render('topography');
+};
+
 exports.visualise = function(req, res, grantsummary){
     var parameters = req.body;
     grantsummary.generateHierarchy(parameters, function(err, docs){

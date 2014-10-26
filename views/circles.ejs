@@ -264,15 +264,19 @@ $( document ).ready(function() {
         };
 
         self.generateCircles = function() {
-            var parameters = {"level":[],"measure":"count"};
-            self.selectedLevels().forEach(function(level){
-                parameters.level.push(level.fieldName);
-            });
+            if(self.selectedLevels().length == 0) {
+              alert("Please select at least 1 level");
+            } else {
+              var parameters = {"level":[],"measure":"count"};
+              self.selectedLevels().forEach(function(level){
+                  parameters.level.push(level.fieldName);
+              });
 
-            $.post( "/api/getd3data", parameters)
-                .done(function( returnedData ) {
-                    buildCircles(returnedData);
-            });
+              $.post( "/api/getd3data", parameters)
+                  .done(function( returnedData ) {
+                      buildCircles(returnedData);
+              });
+            }
         };
     };
 
