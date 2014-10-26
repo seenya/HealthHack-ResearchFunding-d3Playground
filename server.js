@@ -31,6 +31,7 @@ app.configure(function(){
   app.use(express.logger({stream: expressLogFile}));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.favicon("images/favicon.png")); 
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
