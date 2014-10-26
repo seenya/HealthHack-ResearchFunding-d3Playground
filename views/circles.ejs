@@ -11,11 +11,12 @@
 
     <script type="text/javascript" src="js/d3.js"></script>
     <script type="text/javascript" src="js/d3.layout.js"></script>
-    
+
     <script type="text/javascript" src="js/knockout-3.2.0.js"></script>
 
     <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="stylesheets/grid.css">   
+    <link rel="stylesheet" href="stylesheets/grid.css">
+    <link href="stylesheets/font-awesome.min.css" rel="stylesheet">
 
     <style type="text/css">
         text {
@@ -47,8 +48,34 @@
         circle.child {
           pointer-events: none;
         }
+
+        .add-mouse-over, .add-mouse-over i {
+            color: gray;
+        }
+
+        .add-mouse-over:hover, .add-mouse-over:hover i {
+            font-size: 1.1em;
+            text-shadow: 1px 1px 1px #ccc;
+            cursor: pointer;
+        }
+
+        i {
+            margin-left: 10px;
+        }
+
+        .adds:hover, .adds:hover i {
+            color: forestgreen;
+        }
+
+        .removes:hover, .removes:hover i {
+            color: darkred;
+        }
+
+        td {
+            padding-top: 10px;
+        }
     </style>
-    
+
 </head>
 <body>
     <div class="container">
@@ -58,17 +85,17 @@
 
 
         <div class="row"/>
-            <div class="col-md-4"><div data-bind="click: generateCircles">Refresh Circles <img src="images/ic_refresh_24px.svg" alt="Generate"/></div></div>
             <div class="col-md-4">
                 <table>
                     <thead><tr>
                         <th>Available Levels</th><th>&nbsp;</th>
                     </tr></thead>
                     <tbody data-bind="foreach: availableLevels">
-                        <tr>
+                        <tr class="add-mouse-over adds" data-bind="click: $root.selectLevel">
                             <td data-bind="text: level"></td>
-                            <td><div data-bind="click: $root.selectLevel"><img src="images/ic_thumb_up_24px.svg" alt="Add"/></div></td>
-                        </tr>    
+                            <td><div> <i class="fa fa-thumbs-o-up" alt="Add"/></div></td>
+                            <!--<td><div data-bind="click: $root.selectLevel"><img src="images/ic_thumb_up_24px.svg" alt="Add"/></div></td>-->
+                        </tr>
                     </tbody>
                     <tbody></tbody>
                 </table>
@@ -79,18 +106,20 @@
                         <th>Selected Levels</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>
                     </tr></thead>
                     <tbody data-bind="foreach: selectedLevels">
-                        <tr>
+                        <tr class="add-mouse-over removes" data-bind="click: $root.removeLevel">
                             <td data-bind="text: level"></td>
                             <td><!--<button data-bind="click: $root.moveLevelUp">Up</button>--></td>
                             <td><!--<button data-bind="click: $root.moveLevelDown">Down</button>--></td>
-                            <td><div data-bind="click: $root.removeLevel"><img src="images/ic_thumb_down_24px.svg" alt="Add"/></div></td>
-                        </tr>    
+                            <td><div> <i class="fa fa-thumbs-o-down" alt="Add"/></div></td>
+                            <!--<td><div data-bind="click: $root.removeLevel"><img src="images/ic_thumb_down_24px.svg" alt="Add"/></div></td>-->
+                        </tr>
                     </tbody>
                     <tbody></tbody>
                 </table>
             </div>
+            <div class="col-md-4"><div data-bind="click: generateCircles" class="add-mouse-over adds">Refresh Circles <i id="refreshIcon" class="fa fa-refresh fa-lg"></i></div></div>
         </div>
-        
+
 
     </div>
 <br/>
@@ -167,7 +196,7 @@ $( document ).ready(function() {
       clearCircles();
       initialiseCircles();
 
-      data = convertToFlareJSON(data);  
+      data = convertToFlareJSON(data);
       node = root = data;
 
       var nodes = pack.nodes(root);
@@ -193,6 +222,7 @@ $( document ).ready(function() {
           .text(function(d) { return d.size ? d.name + " (" + d.size + ")" : d.name; });
 
       d3.select(window).on("click", function() { zoom(root); });
+        $("#refreshIcon").removeClass("fa-spin");
     };
 
     function zoom(d, i) {
@@ -242,7 +272,7 @@ $( document ).ready(function() {
             new Level("State"),
             new Level("Field of Research", "FoR"),
             new Level("Gender")
-        ]);    
+        ]);
 
         self.selectedLevels = ko.observableArray([]);
 
@@ -268,6 +298,7 @@ $( document ).ready(function() {
             if(self.selectedLevels().length == 0) {
               alert("Please select at least 1 level");
             } else {
+              $("#refreshIcon").addClass("fa-spin");
               var parameters = {"level":[],"measure":"count"};
               self.selectedLevels().forEach(function(level){
                   parameters.level.push(level.fieldName);
