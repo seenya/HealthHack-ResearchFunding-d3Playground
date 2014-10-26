@@ -4,6 +4,10 @@ exports.index = function(req, res){
     res.render('index');
 };
 
+exports.circles = function(req, res){
+    res.render('circles');
+};
+
 exports.visualise = function(req, res, grantsummary){
     var parameters = req.body;
     grantsummary.generateHierarchy(parameters, function(err, docs){
